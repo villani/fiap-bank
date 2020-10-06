@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-FiapBankApplication<fiap-bank>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "br.com.fiap.fiapbank.FiapBankApplication",
+            "projectName": "fiap-bank",
+            "args": ""
+        }
+    ]
+}

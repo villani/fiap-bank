@@ -1,3 +1,6 @@
+server:
+    port: 8081
+
 spring:
     jpa:
         hibernate:
@@ -6,3 +9,4 @@ spring:
         url: jdbc:mysql://localhost:3306/fiapbank
         username: root
         password: Fiap@2020
+        

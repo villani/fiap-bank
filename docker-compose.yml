@@ -11,3 +11,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Fiap@2020
       MYSQL_DATABASE: fiapbank
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
