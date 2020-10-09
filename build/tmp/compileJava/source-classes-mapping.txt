@@ -1,10 +1,14 @@
-br/com/fiap/fiapbank/service/AlunoServiceImpl.java
- br.com.fiap.fiapbank.service.AlunoServiceImpl
+br/com/fiap/fiapbank/FiapBankApplication.java
+ br.com.fiap.fiapbank.FiapBankApplication
+br/com/fiap/fiapbank/config/SpringFoxConfig.java
+ br.com.fiap.fiapbank.config.SpringFoxConfig
+br/com/fiap/fiapbank/controller/AlunoController.java
+ br.com.fiap.fiapbank.controller.AlunoController
 br/com/fiap/fiapbank/repository/AlunoRepository.java
  br.com.fiap.fiapbank.repository.AlunoRepository
 br/com/fiap/fiapbank/entity/Aluno.java
  br.com.fiap.fiapbank.entity.Aluno
 br/com/fiap/fiapbank/service/AlunoService.java
  br.com.fiap.fiapbank.service.AlunoService
-br/com/fiap/fiapbank/FiapBankApplication.java
- br.com.fiap.fiapbank.FiapBankApplication
+br/com/fiap/fiapbank/service/AlunoServiceImpl.java
+ br.com.fiap.fiapbank.service.AlunoServiceImpl
