@@ -10,13 +10,13 @@ import javax.persistence.Table;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "tblAluno") @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Entity
+@Table(name = "tblAluno") 
+@Getter @Setter @NoArgsConstructor
 public class Aluno {
 
     @Id
@@ -35,5 +35,11 @@ public class Aluno {
     @Column(name = "data_atualizacao")
     @LastModifiedDate
     private Date dataAtualizacao;
+
+    public Aluno(Long idMatricula, String nome, String email) {
+        this.idMatricula = idMatricula;
+        this.nome = nome;
+        this.email = email;
+    }
 
 }

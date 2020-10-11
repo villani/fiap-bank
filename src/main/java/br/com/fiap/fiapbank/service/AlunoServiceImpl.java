@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.fiap.fiapbank.dto.AlunoDTO;
 import br.com.fiap.fiapbank.entity.Aluno;
 import br.com.fiap.fiapbank.repository.AlunoRepository;
 
@@ -13,11 +14,6 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Autowired
     AlunoRepository alunoRepository;
-
-    @Override
-    public Aluno saveAluno(Aluno aluno) {
-        return alunoRepository.save(aluno);
-    }
 
     @Override
     public Iterable<Aluno> findAll() {
@@ -35,7 +31,16 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public String deleteAluno(Long idMatricula) {
+    public Aluno save(AlunoDTO alunoDTO) {
+        Aluno aluno = new Aluno(
+            alunoDTO.getIdMatricula(),
+            alunoDTO.getNome(),
+            alunoDTO.getEmail());
+        return alunoRepository.save(aluno);
+    }
+
+    @Override
+    public String delete(Long idMatricula) {
         Optional<Aluno> aluno = alunoRepository.findByIdMatricula(idMatricula);
         if (aluno.isPresent()) {
             alunoRepository.delete(aluno.get());

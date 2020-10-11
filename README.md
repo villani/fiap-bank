@@ -1,2 +1,9 @@
 # fiap-bank
-Nova plataforma de crédito da Fiap
+Para executar:
+
+Subir docker:
+docker-compose up -d
+
+Subir aplicação:
+
+gradle :bootRun
