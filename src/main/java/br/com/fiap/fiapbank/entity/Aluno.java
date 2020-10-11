@@ -1,39 +1,50 @@
 package br.com.fiap.fiapbank.entity;
 
-import java.util.Date;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import br.com.fiap.fiapbank.dto.AlunoDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Table(name = "tblAluno") @Entity
+import java.util.Date;
+
+@Table(name = "tbl_aluno") @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Aluno {
 
     @Id
-    private Long idMatricula;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
-    @Column
+    @Column(name = "nome")
     private String nome;
 
-    @Column
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "data_criacao", updatable = false, nullable = false)
+    @Column(name = "matricula")
+    private String matricula;
+
+    @Column(name = "data_criacao", nullable = false, updatable = false)
     @CreatedDate
     private Date dataCriacao;
 
     @Column(name = "data_atualizacao")
     @LastModifiedDate
     private Date dataAtualizacao;
+
+    public Aluno(AlunoDTO alunoDTO){
+        this.nome = alunoDTO.getNome();
+        this.email = alunoDTO.getEmail();
+        this.matricula = alunoDTO.getMatricula();
+    }
 
 }
