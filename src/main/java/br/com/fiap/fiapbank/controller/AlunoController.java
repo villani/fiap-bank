@@ -26,20 +26,21 @@ public class AlunoController {
        return ResponseEntity.ok().body(alunoService.saveAluno(alunoDTO));
     }
 
-    @GetMapping("/{id}")
-    public @ResponseBody ResponseEntity<?> buscarAluno(@PathVariable Long id){
-        return ResponseEntity.ok().body(alunoService.findById(id));
+    @GetMapping("{matricula}")
+    public @ResponseBody ResponseEntity<?> buscarAluno(@PathVariable String matricula){
+        return ResponseEntity.ok().body(alunoService.findByMatricula(matricula));
     }
 
-    @DeleteMapping("/{id}")
-    public @ResponseBody ResponseEntity<?> excluir(@PathVariable Long id){
-        return ResponseEntity.ok().body(alunoService.delete(id));
+    @DeleteMapping("{matricula}")
+    public @ResponseBody ResponseEntity<?> excluir(@PathVariable String matricula){
+        return ResponseEntity.ok().body(alunoService.delete(matricula));
     }
 
-    @PutMapping("/{id}")
-    public @ResponseBody ResponseEntity<?> atualizarAluno(@PathVariable Long id,
-                                                          @RequestBody AlunoDTO alunoDTO){
-        return ResponseEntity.ok().body(alunoService.updateAluno(id,alunoDTO));
+    @PutMapping("{matriculaAtual}")
+    public @ResponseBody ResponseEntity<?> atualizarAluno(@PathVariable String matriculaAtual,
+            @RequestBody AlunoDTO alunoDTO){
+        return ResponseEntity.ok().body(alunoService.updateAluno(matriculaAtual,alunoDTO));
     }
+
     
 }

@@ -12,5 +12,5 @@ import br.com.fiap.fiapbank.entity.Aluno;
 public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
 //    Optional<Aluno> findByIdMatricula(@Param("idMatricula") Long idMatricula);
-    
+    Aluno findByMatricula(@Param("matricula") String matricula);
 }

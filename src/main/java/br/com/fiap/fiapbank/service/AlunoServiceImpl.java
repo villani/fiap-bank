@@ -22,6 +22,13 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public AlunoDTO saveAluno(AlunoDTO alunoDTO) {
+
+        Aluno busca = alunoRepository.findByMatricula(alunoDTO.getMatricula());
+
+        if(busca != null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
+
         Aluno aluno = new Aluno(alunoDTO);
         Aluno alunoBanco = alunoRepository.save(aluno);
         return new AlunoDTO(alunoBanco);
@@ -34,35 +41,35 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public AlunoDTO findById(Long id) {
-        Optional<Aluno> aluno = alunoRepository.findById(id);
-        if(aluno.isPresent()){
-            AlunoDTO alunoDTO = new AlunoDTO(aluno.get());
+    public AlunoDTO findByMatricula(String matricula) {
+        Aluno aluno = (alunoRepository.findByMatricula(matricula));
+        if(aluno != null){
+            AlunoDTO alunoDTO = new AlunoDTO(aluno);
             return alunoDTO;
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public String delete(Long id) {
-        Optional<Aluno> aluno = alunoRepository.findById(id);
-        if(aluno.isPresent()){
-            alunoRepository.delete(aluno.get());
+    public String delete(String matricula) {
+        Aluno aluno = alunoRepository.findByMatricula(matricula);
+        if(aluno != null){
+            alunoRepository.delete(aluno);
             return "Aluno excluído";
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
 
     @Override
-    public AlunoDTO updateAluno(Long id,AlunoDTO alunoDTO) {
+    public AlunoDTO updateAluno(String matriculaAtual,AlunoDTO alunoDTO) {
 
-        Optional<Aluno> aluno = alunoRepository.findById(id);
-        if(aluno.isPresent()){
-            aluno.get().setEmail(alunoDTO.getEmail());
-            aluno.get().setNome(alunoDTO.getNome());
-            aluno.get().setMatricula(alunoDTO.getMatricula());
-            alunoRepository.save(aluno.get());
-            return new AlunoDTO(aluno.get());
+        Aluno aluno = alunoRepository.findByMatricula(matriculaAtual);
+        if(aluno != null){
+            aluno.setEmail(alunoDTO.getEmail());
+            aluno.setNome(alunoDTO.getNome());
+            aluno.setMatricula(alunoDTO.getMatricula());
+            alunoRepository.save(aluno);
+            return new AlunoDTO(aluno);
         }
         throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }

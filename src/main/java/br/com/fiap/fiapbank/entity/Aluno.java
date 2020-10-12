@@ -14,7 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
-@Table(name = "tbl_aluno") @Entity
+@Table(name = "tbl_aluno",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"matricula"}) }) @Entity
 @EntityListeners(AuditingEntityListener.class)
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Aluno {
@@ -30,7 +31,7 @@ public class Aluno {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "matricula")
+    @Column(name = "matricula", nullable = false)
     private String matricula;
 
     @Column(name = "data_criacao", nullable = false, updatable = false)

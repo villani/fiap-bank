@@ -7,8 +7,8 @@ public interface AlunoService {
 
     AlunoDTO saveAluno(AlunoDTO alunoDTO);
     Iterable<AlunoDTO> findAll();
-    AlunoDTO findById(Long id);
-    String delete(Long id);
-    AlunoDTO updateAluno(Long id,AlunoDTO alunoDTO);
+    AlunoDTO findByMatricula(String matricula);
+    String delete(String matricula);
+    AlunoDTO updateAluno(String matriculaAtual, AlunoDTO alunoDTO);
     
 }
