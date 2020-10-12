@@ -1,8 +1,8 @@
 package br.com.fiap.fiapbank;
 
 import br.com.fiap.fiapbank.dto.AlunoDTO;
-import br.com.fiap.fiapbank.entity.Aluno;
-import br.com.fiap.fiapbank.repository.AlunoRepository;
+import br.com.fiap.fiapbank.dto.CreateCartaoDTO;
+import br.com.fiap.fiapbank.dto.TransacaoDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,6 +16,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -125,6 +127,262 @@ public class FiapBankIntegrationsTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.nome").value("Fulano"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("email3@mail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.matricula").value("336810"));
+    }
+
+
+    @Test
+    void PostCartao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().is4xxClientError());
+
+    }
+
+    @Test
+    void GetCartao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .get("/cartoes")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].numeroCartao").isNotEmpty());
+
+    }
+
+    @Test
+    void GetCartaoByNumeroCartao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .get("/cartoes/{numeroCartao}", "123-45")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.numeroCartao").value("123-45"));
+
+    }
+
+    @Test
+    void DeleteCartaoByNumeroCartao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders.delete("/cartoes/{numeroCartao}", "123-45") )
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void PutCartaoByNumeroCartao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .put("/cartoes/{numeroCartaoAtual}", "123-45")
+                .content(asJsonString(new CreateCartaoDTO( "123-56", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.numeroCartao").value("123-56"));
+
+    }
+
+    @Test
+    void GetCartaoByMatricula() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .get("/cartoes/alunos/{matricula}","336810")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].numeroCartao").isNotEmpty());
+
+    }
+
+    @Test
+    void PostTransacao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/transacoes")
+                .content(asJsonString(new TransacaoDTO(new BigDecimal(235.98),"123-45")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+
+    }
+
+    @Test
+    void GetTransacao() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/transacoes")
+                .content(asJsonString(new TransacaoDTO(new BigDecimal(235.98),"123-45")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .get("/transacoes")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[*].id").isNotEmpty());
+
+    }
+
+    @Test
+    void DeleteTransacaoById() throws Exception {
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/alunos")
+                .content(asJsonString(new AlunoDTO( "Guilherme", "email4@mail.com", "336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.nome").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/cartoes")
+                .content(asJsonString(new CreateCartaoDTO( "123-45","336810")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        mockMvc.perform( MockMvcRequestBuilders
+                .post("/transacoes")
+                .content(asJsonString(new TransacaoDTO(new BigDecimal(235.98),"123-45")))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+
+        mockMvc.perform( MockMvcRequestBuilders.delete("/transacoes/{id}", 1) )
+                .andExpect(status().isOk());
+
     }
 
 
