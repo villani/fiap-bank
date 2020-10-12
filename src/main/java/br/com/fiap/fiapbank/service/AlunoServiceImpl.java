@@ -1,5 +1,6 @@
 package br.com.fiap.fiapbank.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class AlunoServiceImpl implements AlunoService {
     }
 
     @Override
-    public Iterable<AlunoDTO> findAll() {
+    public List<AlunoDTO> findAll() {
 
         return alunoRepository.findAll().stream().map(registro -> new AlunoDTO(registro)).collect(Collectors.toList());
     }

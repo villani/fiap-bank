@@ -1,2 +1,4 @@
 br/com/fiap/fiapbank/FiapBankApplicationTests.java
  br.com.fiap.fiapbank.FiapBankApplicationTests
+br/com/fiap/fiapbank/FiapBankIntegrationsTests.java
+ br.com.fiap.fiapbank.FiapBankIntegrationsTests

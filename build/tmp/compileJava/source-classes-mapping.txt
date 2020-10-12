@@ -4,8 +4,8 @@ br/com/fiap/fiapbank/config/SpringFoxConfig.java
  br.com.fiap.fiapbank.config.SpringFoxConfig
 br/com/fiap/fiapbank/config/JpaConfig.java
  br.com.fiap.fiapbank.config.JpaConfig
-br/com/fiap/fiapbank/service/AlunoService.java
- br.com.fiap.fiapbank.service.AlunoService
+br/com/fiap/fiapbank/dto/TransacaoDTO.java
+ br.com.fiap.fiapbank.dto.TransacaoDTO
 br/com/fiap/fiapbank/dto/AlunoDTO.java
  br.com.fiap.fiapbank.dto.AlunoDTO
 br/com/fiap/fiapbank/entity/Aluno.java
@@ -14,8 +14,8 @@ br/com/fiap/fiapbank/repository/AlunoRepository.java
  br.com.fiap.fiapbank.repository.AlunoRepository
 br/com/fiap/fiapbank/dto/CreateCartaoDTO.java
  br.com.fiap.fiapbank.dto.CreateCartaoDTO
-br/com/fiap/fiapbank/service/AlunoServiceImpl.java
- br.com.fiap.fiapbank.service.AlunoServiceImpl
+br/com/fiap/fiapbank/service/TransacaoServiceImpl.java
+ br.com.fiap.fiapbank.service.TransacaoServiceImpl
 br/com/fiap/fiapbank/entity/Cartao.java
  br.com.fiap.fiapbank.entity.Cartao
 br/com/fiap/fiapbank/controller/CartaoController.java
@@ -24,8 +24,8 @@ br/com/fiap/fiapbank/repository/CartaoRepository.java
  br.com.fiap.fiapbank.repository.CartaoRepository
 br/com/fiap/fiapbank/service/CartaoService.java
  br.com.fiap.fiapbank.service.CartaoService
-br/com/fiap/fiapbank/controller/AlunoController.java
- br.com.fiap.fiapbank.controller.AlunoController
+br/com/fiap/fiapbank/controller/TransacaoController.java
+ br.com.fiap.fiapbank.controller.TransacaoController
 br/com/fiap/fiapbank/service/CartaoServiceImpl.java
  br.com.fiap.fiapbank.service.CartaoServiceImpl
 br/com/fiap/fiapbank/repository/TransacaoRepository.java
@@ -34,9 +34,9 @@ br/com/fiap/fiapbank/entity/Transacao.java
  br.com.fiap.fiapbank.entity.Transacao
 br/com/fiap/fiapbank/service/TransacaoService.java
  br.com.fiap.fiapbank.service.TransacaoService
-br/com/fiap/fiapbank/dto/TransacaoDTO.java
- br.com.fiap.fiapbank.dto.TransacaoDTO
-br/com/fiap/fiapbank/controller/TransacaoController.java
- br.com.fiap.fiapbank.controller.TransacaoController
-br/com/fiap/fiapbank/service/TransacaoServiceImpl.java
- br.com.fiap.fiapbank.service.TransacaoServiceImpl
+br/com/fiap/fiapbank/service/AlunoServiceImpl.java
+ br.com.fiap.fiapbank.service.AlunoServiceImpl
+br/com/fiap/fiapbank/controller/AlunoController.java
+ br.com.fiap.fiapbank.controller.AlunoController
+br/com/fiap/fiapbank/service/AlunoService.java
+ br.com.fiap.fiapbank.service.AlunoService
