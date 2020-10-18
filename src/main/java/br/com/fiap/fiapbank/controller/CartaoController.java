@@ -1,10 +1,17 @@
 package br.com.fiap.fiapbank.controller;
 
 import br.com.fiap.fiapbank.dto.CreateCartaoDTO;
+import br.com.fiap.fiapbank.dto.ExtratoDTO;
+import br.com.fiap.fiapbank.entity.Transacao;
 import br.com.fiap.fiapbank.service.CartaoService;
+import com.opencsv.CSVWriter;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 
 @RestController
@@ -47,6 +54,25 @@ public class CartaoController {
     @GetMapping("alunos/{matricula}")
     public @ResponseBody ResponseEntity<?> buscarCartoesMatricula(@PathVariable String matricula){
         return ResponseEntity.ok().body(cartaoService.findByAluno(matricula));
+    }
+
+    @GetMapping("{numeroCartao}/extrato")
+    public void buscarExtrato(HttpServletResponse response, @PathVariable String numeroCartao,
+                              @RequestParam Long qtdDias) throws Exception{
+
+        String filename = "extrato.csv";
+
+        response.setContentType("text/csv");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + filename + "\"");
+
+        StatefulBeanToCsv<ExtratoDTO> writer = new StatefulBeanToCsvBuilder<ExtratoDTO>(response.getWriter())
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                .withOrderedResults(false)
+                .build();
+
+        writer.write(cartaoService.getExtrato(numeroCartao,qtdDias));
     }
 
 }
